@@ -1,5 +1,4 @@
-# DSA_leetcodes
-# Data Structures & Algorithms Practice
+# DSA Leetcode Practice
 
 A collection of my solutions to Data Structures and Algorithms problems as I work through LeetCode and strengthen my problem-solving skills.
 
