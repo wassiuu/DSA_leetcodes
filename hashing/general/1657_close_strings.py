@@ -45,7 +45,8 @@ def closeStrings(word1, word2):
             freq1[c] = freq1.get(c,0) + 1
         for v in word2:
             freq2[v] = freq2.get(v,0) + 1
-
+            
+        "check if the two strings have the same set of characters and the same frequency of characters"
         if (set(word1) == set(word2)) and sorted(freq1.values()) == sorted(freq2.values()):
             return True 
         else:
