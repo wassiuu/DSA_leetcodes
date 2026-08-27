@@ -21,3 +21,44 @@ There are no other nodes with twins in the linked list.
 Thus, the maximum twin sum of the linked list is 6. 
 '''
 
+# Definition for singly-linked list.
+# class ListNode(object):
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution(object):
+    def pairSum(self, head):
+
+        #finding the middle 
+        def find_middle(head1):
+            slow = head1 
+            fast = head1
+            while fast and fast.next:
+                slow = slow.next 
+                fast = fast.next.next 
+            return slow
+        
+        #reversing the second half
+        def reverse(head2):
+            prev = None 
+            curr = head2 
+            while curr:
+                next_node = curr.next 
+                curr.next = prev 
+                prev = curr 
+                curr = next_node
+            return prev
+
+        middle = find_middle(head)
+
+        first_half = head
+        second_half = reverse(middle)
+
+        ans = 0
+        while second_half:
+            s = first_half.val + second_half.val
+            ans = max(ans,s)
+            first_half = first_half.next
+            second_half = second_half.next
+        
+        return ans
