@@ -22,10 +22,7 @@ class Solution(object):
     def reverseBetween(self, head, left, right):
         dummy = new_head = ListNode(0)
         dummy.next = head
-
-        c = 0
-        end = right - left
-        
+                
         before = dummy
         for _ in range(left-1):
             before = before.next
