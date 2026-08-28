@@ -12,3 +12,37 @@ Example 2:
 Input: head = [5], left = 1, right = 1
 Output: [5]
 '''
+
+# Definition for singly-linked list.
+class ListNode(object):
+     def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+class Solution(object):
+    def reverseBetween(self, head, left, right):
+        dummy = new_head = ListNode(0)
+        dummy.next = head
+
+        c = 0
+        end = right - left
+        
+        before = dummy
+        for _ in range(left-1):
+            before = before.next
+        
+        prev = None
+        curr = before.next
+        tail_1 = curr
+        for _ in range(right-left+1):
+            next_node = curr.next
+            curr.next = prev
+            prev = curr
+            curr = next_node
+        
+        new_head = prev
+        before.next = new_head
+
+        tail_1.next = curr
+
+        return dummy.next
+
