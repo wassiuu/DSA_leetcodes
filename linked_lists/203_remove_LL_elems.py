@@ -16,5 +16,26 @@ Input: head = [7,7,7,7], val = 7
 Output: []
 '''
 
-
+# Definition for singly-linked list.
+class ListNode(object):
+     def __init__(self, val=0, next=None):
+         self.val = val
+         self.next = next
+class Solution(object):
+    def removeElements(self, head, val):
+        dummy = ListNode(0)
+        dummy.next = head
+        prev = dummy
+        curr = head
+        while curr:
+            if curr.val == val:
+                while curr.next and curr.next.val == val:
+                    curr = curr.next
+                prev.next = curr.next
+            else:
+                prev = prev.next
+            
+            curr = curr.next
+        
+        return dummy.next
         
