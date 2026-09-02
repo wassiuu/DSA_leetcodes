@@ -38,3 +38,58 @@ Explanation:
 reversed.
 - The length of the last group is 1. No reversal occurs.
 '''
+
+# Definition for singly-linked list.
+class ListNode(object):
+     def __init__(self, val=0, next=None):
+         self.val = val
+         self.next = next
+class Solution(object):
+    def reverseEvenLengthGroups(self, head):
+        dummy = ListNode(0)
+        dummy.next = head
+
+        A = dummy
+        B = head
+        C = head
+        D = head.next
+
+        g_size = 1
+        actual_s = 1
+
+        while B:
+            g_size = 1
+            C = B                 # CHANGED: reset C to start of current group
+
+            # find the actual length of current group
+            while g_size < actual_s and C.next:
+                g_size += 1
+                C = C.next
+
+            D = C.next            # CHANGED: D must be updated AFTER finding C
+
+            if g_size % 2 == 0:
+                prev = None
+                curr = B
+
+                while curr != D:
+                    next_node = curr.next
+                    curr.next = prev
+                    prev = curr
+                    curr = next_node
+
+                A.next = prev
+                B.next = D
+
+                A = B
+                B = D
+
+            else:
+                A = C
+                B = D
+
+            actual_s += 1
+
+        return dummy.next 
+
+  
