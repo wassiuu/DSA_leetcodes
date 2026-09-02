@@ -17,3 +17,27 @@ Input: head = [0]
 Output: 0
 '''
 
+# Definition for singly-linked list.
+class ListNode(object):
+     def __init__(self, val=0, next=None):
+         self.val = val
+         self.next = next
+class Solution(object):
+    def getDecimalValue(self, head):
+
+        prev = None 
+        curr = head
+        while curr:
+            next_node = curr.next 
+            curr.next = prev
+            prev = curr
+            curr = next_node 
+        
+        summ = x = 0
+        num = prev
+        while num:
+            summ += (2**x)*num.val
+            x +=1
+            num = num.next
+        
+        return summ 
