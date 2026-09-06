@@ -32,3 +32,20 @@ Output: false
 '''
 
 
+
+def isValid(s):
+        stack = []
+        matching = {"(" :")", "[" :"]", "{" :"}"}
+
+        for c in s:
+                if c in matching:
+                    stack.append(c)
+                else:
+                    if not stack:
+                        return False 
+                    
+                    if not matching[stack[-1]] == c:
+                        return False
+                    stack.pop()
+        
+        return not stack
