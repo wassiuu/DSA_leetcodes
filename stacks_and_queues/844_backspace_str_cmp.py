@@ -43,3 +43,20 @@ def backspaceCompare(s, t):
                 stack_t = stack_t
         
         return "".join(stack_s) == "".join(stack_t)
+
+'''
+solution # 2:
+
+    def backspaceCompare(s, t):
+  
+        def remove_characters(s):
+            stack = []
+            for char in s:
+                if char == '#' and stack:
+                    stack.pop()
+                elif char != '#':
+                    stack.append(char)
+            return stack
+
+        return remove_characters(s) == remove_characters(t)
+'''
