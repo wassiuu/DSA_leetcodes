@@ -54,3 +54,19 @@ Output: "/.../b/d"
 Explanation:
 "..." is a valid name for a directory in this problem.
 '''
+
+def simplifyPath(path):
+        direc = ""
+        stack = []
+        for c in path:
+            if c == "/" and direc != ".." and direc != "" and direc != ".":
+                stack.append(direc)
+                direc = ""
+            elif stack and direc == ".." and c == "/":
+                stack.pop()
+                direc = ""
+            elif c != "/":
+                direc += c
+        
+        print(stack)
+        print("/".join(stack))
