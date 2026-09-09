@@ -31,32 +31,28 @@ def backspaceCompare(s, t):
                 stack_s.append(c)
             elif stack_s:
                 stack_s.pop()
-            else:
-                stack_s = stack_s
         
         for ch in t:
             if ch != "#":
                 stack_t.append(ch)
             elif stack_t:
                 stack_t.pop()
-            else:
-                stack_t = stack_t
-        
+
         return "".join(stack_s) == "".join(stack_t)
 
 '''
 solution # 2:
 
-    def backspaceCompare(s, t):
-  
-        def remove_characters(s):
+    def backspaceCompare(self, s: str, t: str) -> bool:
+        def build(s):
             stack = []
-            for char in s:
-                if char == '#' and stack:
+            for c in s:
+                if c != "#":
+                    stack.append(c)
+                elif stack:
                     stack.pop()
-                elif char != '#':
-                    stack.append(char)
-            return stack
 
-        return remove_characters(s) == remove_characters(t)
+            return "".join(stack)
+
+        return build(s) == build(t)
 '''
