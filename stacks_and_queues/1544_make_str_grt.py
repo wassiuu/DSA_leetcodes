@@ -33,3 +33,28 @@ Input: s = "s"
 Output: "s"
 '''
 
+def makeGood(s):
+        stack = []
+        for c in s:
+            if stack:
+
+                if c.isupper():
+                    if c.lower() == stack[-1]:
+                        stack.pop()
+                    else:
+                        stack.append(c)
+
+                elif stack[-1].isupper():
+                    if stack[-1].lower() == c:
+                        stack.pop()
+                    else:
+                        stack.append(c)
+
+                else:
+                    stack.append(c)
+                    
+            else:
+                stack.append(c)
+        
+        return "".join(stack)
+
