@@ -58,15 +58,41 @@ Explanation:
 def simplifyPath(path):
         direc = ""
         stack = []
+
         for c in path:
-            if c == "/" and direc != ".." and direc != "" and direc != ".":
-                stack.append(direc)
+
+            if c == "/":
+                # CHANGE 1:
+                # If direc is "..", pop only if stack has something.
+                if direc == "..":
+                    if stack:
+                        stack.pop()
+
+                # CHANGE 2:
+                # If direc is "." or "", just ignore it.
+                elif direc == "." or direc == "":
+                    pass
+
+                # CHANGE 3:
+                # Otherwise, it's a normal directory name.
+                else:
+                    stack.append(direc)
+
+                # CHANGE 4:
+                # ALWAYS reset direc after hitting "/"
                 direc = ""
-            elif stack and direc == ".." and c == "/":
-                stack.pop()
-                direc = ""
+
             elif c != "/":
                 direc += c
-        
-        print(stack)
-        print("/".join(stack))
+
+        # CHANGE 5:
+        # Handle the last directory if path does NOT end in "/"
+        if direc:
+            if direc == "..":
+                if stack:
+                    stack.pop()
+
+            elif direc != ".":
+                stack.append(direc)
+
+        return ("/" + "/".join(stack))
