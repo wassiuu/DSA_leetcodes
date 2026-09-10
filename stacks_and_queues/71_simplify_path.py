@@ -96,3 +96,19 @@ def simplifyPath(path):
                 stack.append(direc)
 
         return ("/" + "/".join(stack))
+
+'''
+second solutiion much more cleaner:
+
+        stack = []
+        directories = path.split("/")
+        for dir in directories:
+            if dir == "." or not dir:
+                continue
+            elif dir == "..":
+                if stack:
+                    stack.pop()
+            else:
+                stack.append(dir)
+        return "/" + "/".join(stack)
+'''
