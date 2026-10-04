@@ -33,6 +33,23 @@ recentCounter.ping(3002);  // requests = [1, 100, 3001, 3002], range is [2,3002]
  
 '''
 
-'''
-really busy today couldnt do it
-'''
+class RecentCounter(object):
+  
+    def __init__(self):
+        self.q = deque()
+ 
+
+    def ping(self, t):
+        
+        self.q.append(t)
+
+        while self.q and self.q[0] < t - 3000:
+            self.q.popleft()
+        
+        return len(self.q)
+        
+
+
+# Your RecentCounter object will be instantiated and called as such:
+# obj = RecentCounter()
+# param_1 = obj.ping(t)
