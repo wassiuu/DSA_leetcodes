@@ -34,3 +34,28 @@ class Solution(object):
                 total += box[0] * box[1]
                 return total
         return total 
+
+'''
+better solution:
+when truckSize - box[0] < 0, 
+we can just add truckSize * box[1] to total and 
+return total
+
+instead of making the box[0] smaller and eventually
+making it equal to truckSize, we can just add the
+remaining truckSize * box[1] to total and return total
+'''
+
+class Solution(object):
+    def maximumUnits(self, boxTypes, truckSize):
+        boxTypes.sort(key=lambda b: b[1], reverse=True)
+        total = 0
+        for box in boxTypes:
+            print(box[0],box[1])
+            if truckSize - box[0] >= 0:
+                total += box[0] * box[1]
+                truckSize -= box[0]
+            else:
+                total += truckSize * box[1]
+                return total
+        return total 
