@@ -29,11 +29,66 @@ Input: s = "paper", t = "title"
 Output: true
 '''
 
-def isIsomorphic(s, t):
-        map = {}
+class Solution(object):
+    def isIsomorphic(self, s, t):
+        hash_s = {}
+        hash_t = {}
+
         for i in range(len(s)):
-            if (s[i] in map and t[i] != map[s[i]]) or (s[i] not in map.keys() and t[i] in map.values()) :
-                return False
+            c = s[i]
+            if c in hash_s:
+                if hash_s[c] != t[i]:
+                    return False
             else:
-                map[s[i]] = t[i]
+                hash_s[c] = t[i]
+                if t[i] in hash_t:
+                    return False
+                else:
+                    hash_t[t[i]] = c
         return True
+
+
+'''
+# ---------------------------------------------------------------
+# LC 205 - Isomorphic Strings: notes
+# ---------------------------------------------------------------
+# IDEA: Use two dicts to keep the mapping one-to-one, both ways.
+#   hash_s: s-char -> t-char
+#   hash_t: t-char -> s-char
+#
+# AT EACH INDEX i (c = s[i]):
+#   1) c seen before (c in hash_s):
+#        It must map to the SAME t-char as before.
+#        Check: hash_s[c] == t[i]. If not -> return False.
+#   2) c is new:
+#        If t[i] is already in hash_t, some OTHER s-char already
+#        took it -> return False (two s-chars can't share one t-char).
+#        Otherwise record both directions:
+#          hash_s[c] = t[i]
+#          hash_t[t[i]] = c
+#
+# MISTAKES I MADE:
+#   - hash_s[c] != hash_t[c]
+#       c is an s-char, so it doesn't belong as a key in hash_t.
+#       Don't mix up the two dicts' key types.
+#   - hash_s[c] != hash_t[t[i]]
+#       This compares a t-char to an s-char, which never makes sense.
+#       It also raises a KeyError if t[i] isn't in hash_t yet.
+#       Counterexample: s="aba", t="bab" -> returns False (should be True)
+#   - Right check: hash_s[c] != t[i]  (compare to the CURRENT t-char)
+#
+# TIP: Name the dicts s_to_t / t_to_s so it's obvious what each
+#      key and value are.
+#
+# TESTS:
+#   "egg", "add"   -> True
+#   "foo", "bar"   -> False  (o maps to both a and r)
+#   "badc", "baba" -> False  (b and d both map to b)
+#   "aa", "ab"     -> False
+#
+# COMPLEXITY: O(n) time, O(1) space (the alphabet is bounded)
+#
+# ONE-LINER ALTERNATIVE:
+#   return len(set(s)) == len(set(t)) == len(set(zip(s, t)))
+# ---------------------------------------------------------------
+'''
