@@ -29,15 +29,72 @@ Input: pattern = "aaaa", s = "dog cat cat dog"
 Output: false
 '''
 
-def wordPattern(pattern, s):
+class Solution(object):
+    def wordPattern(self, pattern, s):
         words = s.split(" ")
-        map = {}
-        if len(pattern) != len(words):
+        map_to_s = {}
+        map_to_p = {}
+
+        if len(words) != len(pattern):
             return False
         for i in range(len(pattern)):
-            char = pattern[i]
-            if (char in map and words[i] != map[char]) or (char not in map.keys() and words[i] in map.values()):
-                return False
+            c = pattern[i]
+            if c in map_to_s:
+                if map_to_s[c] != words[i]:
+                    return False
             else:
-                map[char] = words[i]
+                if words[i] in map_to_p:
+                    return False
+                else:
+                    map_to_s[c] = words[i]
+                    map_to_p[words[i]] = c
         return True
+
+'''
+# ---------------------------------------------------------------
+# LC 290 - Word Pattern: notes (solved on my own!)
+# ---------------------------------------------------------------
+# IDEA: Same as LC 205 (Isomorphic Strings), except pattern
+#       letters map to whole WORDS instead of single characters.
+#   map_to_s: pattern-char -> word
+#   map_to_p: word -> pattern-char
+#
+# STEP 0: Split s into words. If len(words) != len(pattern),
+#         return False right away (a 1-to-1 mapping is impossible).
+#
+# AT EACH INDEX i (c = pattern[i], w = words[i]):
+#   1) c seen before (c in map_to_s):
+#        It must map to the SAME word as before.
+#        Check: map_to_s[c] == w. If not -> return False.
+#   2) c is new:
+#        If w is already in map_to_p, a DIFFERENT pattern char
+#        already took this word -> return False.
+#        Otherwise record both directions:
+#          map_to_s[c] = w
+#          map_to_p[w] = c
+#
+# WHY TWO MAPS: one map only catches "one letter -> two words".
+#   The second map catches "two letters -> the same word".
+#   e.g. pattern="ab", s="dog dog" needs map_to_p to fail.
+#
+# KEY CHECK: compare the stored value to the CURRENT word
+#   (map_to_s[c] != words[i]), not to a lookup in the other map.
+#
+# TIP: s.split() (no argument) is more robust than s.split(" ").
+#
+# TESTS:
+#   "abba", "dog cat cat dog"  -> True
+#   "abba", "dog cat cat fish" -> False  (a maps to dog and fish)
+#   "aaaa", "dog cat cat dog"  -> False
+#   "abba", "dog dog dog dog"  -> False  (a and b both map to dog)
+#   "aaa",  "dog dog dog dog"  -> False  (length mismatch)
+#
+# COMPLEXITY: O(n + m) time, where m = length of s (for splitting)
+#             O(number of unique words) space
+#
+# ONE-LINER ALTERNATIVE:
+#   w = s.split()
+#   return len(pattern) == len(w) and \
+#          len(set(pattern)) == len(set(w)) == len(set(zip(pattern, w)))
+# ---------------------------------------------------------------
+'''
